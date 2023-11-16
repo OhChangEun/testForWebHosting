@@ -15,32 +15,14 @@
                     oncomplete: function (data) {
                         // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
                         // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-
-                        // 부모 창에 메시지를 전송
-                        window.parent.postMessage({
+                        window.chrome.webview.postMessage(JSON.stringify({
                             zonecode: data.zonecode,
                             address: data.address
-                        }, '*');
+                        }));
                     }
                 }).embed(element_layer);
             }
-
-            // 새로 추가한 부분: 버튼 클릭 시 부모 창으로 메시지 전송
-            $("#btnCommunicate").on("click", function () {
-                // 부모 창에 메시지를 전송
-                window.parent.postMessage({ action: 'CallCSharp' }, '*');
-            });
-
             showzip();
-        });
-
-        // 새로 추가한 부분: 부모 창으로부터 메시지를 수신
-        window.addEventListener('message', function (event) {
-            if (event.data.action === 'CallForm') {
-                // 받은 데이터를 처리
-                alert(`Received Zip Code: ${event.data.zonecode}\nReceived Address: ${event.data.address}`);
-                // 여기에서 원하는 작업을 수행하면 됩니다.
-            }
         });
     </script>
 </head>
